@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Результаты поиска</h1>
+    <form method="get" action="{% url 'search_result' %}" class="d-flex mb-3">
+        <input class="form-control mr-sm-2" type="search" name="q" placeholder="Поиск" value="{{ query }}">
+        <button class="btn btn-outline-primary" type="submit">Найти</button>
+    </form>
+
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.title }}</h5>
+                            <p class="card-text">{{ product.description|truncatewords:10 }}</p>
+                            <p class="text-muted">{{ product.price }} руб.</p>
+                            <a href="{% url 'service-detail' product.pk %}" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Ничего не найдено по запросу "{{ query }}"</p>
+    {% endif %}
+</div>
+{% endblock %}

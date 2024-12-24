@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Профиль {% endblock %}
+
+{% block content %}
+
+<div class="container mt-3 text-center">
+    <h1 class="mb-3">Профиль пользователя {{ user.username }}</h1>
+
+    {% if user.is_superuser %}
+    <h2 class="text-center">Вы администратор данного сайта!</h2>
+    {% else %}
+    <div class="d-flex flex-column align-items-center mb-4">
+        <img src="{{ user.avatar.url }}" alt="Аватар" class="rounded-circle mb-3" style="width: 100px; height: 100px;">
+        <p><strong>Логин: </strong>{{user.username}}</p>
+    </div>
+    {% endif %}
+
+
+    {% if user.get_orders %}
+    <h2>Ваши заказы</h2>
+    <ul class="list-unstyled">
+        {% for order in user.get_orders %}
+            <a href="{% url 'service-detail' order.product.id %}" class="text-decoration-none">
+        <div class="d-flex justify-content-between border mb-3 p-2 rounded">
+                <p>{{order.product}}</p>
+                <p>{{order.ordered_at}}</p>
+        </div>
+            </a>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <h2 class="text-center">У вас нет активных заказов.</h2>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% load static %}
+{% load bootstrap4 %}
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} Magazine {% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="d-flex align-items-center justify-content-between p-3">
+        <a class="text-decoration-none fs-2" href="{% url 'index' %}">Magazine</a>
+        <nav class="d-flex align-items-center">
+            <a href="{% url 'service' %}" class="mr-3">Товары и услуги</a>
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                <a class="btn btn-primary mr-3" href="{% url 'admin:index' %}">Админка</a>
+                {% else %}
+                <a class="btn btn-primary mr-3" href="{% url 'profile' %}">Профиль</a>
+                {% endif %}
+                <a class="btn btn-primary" href="{% url 'logout' %}">Выход</a>
+            {% else %}
+                <a class="btn btn-primary mr-3" href="{% url 'login' %}">Вход</a>
+                <a class="btn btn-primary" href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+        </nav>
+    </div>
+    <main class="container mt-4">
+        <div>
+            {% block content %} {% endblock %}
+        </div>
+    </main>
+</body>
+</html>

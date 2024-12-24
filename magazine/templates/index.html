@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="get" action="{% url 'search_result' %}" class="d-flex mb-3">
+    <input class="form-control mr-sm-2" type="search" name="q" placeholder="Поиск" aria-label="Поиск" value="{{ request.GET.q }}">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Найти</button>
+</form>
+
+<h2>Наши преимущества</h2>
+<p>мы крутые</p>
+<h2>Наши продукты</h2>
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <a href="{% url 'service-detail' product.id %}" class="text-decoration-none">
+                    <img src="{{ product.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Изображение продукта">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text font-weight-bold">{{ product.price }} ₽</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
